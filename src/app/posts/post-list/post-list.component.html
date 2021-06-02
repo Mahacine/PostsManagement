@@ -1,17 +1,24 @@
-<h1>Posts</h1>
+<div id="container">
+<h1>The Daily Blog</h1>
+<div id="newpost">
+  <button mat-icon-button (click)="goNewPost()">
+    <span>New post </span><mat-icon>fiber_new</mat-icon>
+  </button>
+</div>
 <section>
     <mat-card *ngFor="let post of posts">
       <mat-card-content routerLink="{{post.id}}">
-        <img mat-card-image src="{{post.image}}" alt="{{post.title}}">
         <h2>{{post.title}}</h2>
         <p>
           <small>Posted by {{post.author}} &bull; on {{post.published | date:"fullDate"}}</small>
         </p>
+        &nbsp;&nbsp;&nbsp;<img mat-card-image src="{{post.image}}" alt="{{post.title}}"><br />
+        <mat-card-actions align="end">
+          <button mat-icon-button >
+            <span>See more </span><mat-icon>add</mat-icon>
+          </button>
+        </mat-card-actions>
       </mat-card-content>
-      <!--<mat-card-actions align="end" *ngIf="auth.currentUserId === post.authorId">
-        <button mat-icon-button (click)="delete(post.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-card-actions>-->
     </mat-card>
   </section>
+</div>

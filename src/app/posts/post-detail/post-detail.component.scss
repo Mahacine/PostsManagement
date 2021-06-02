@@ -1,10 +1,47 @@
 mat-card {
     margin: 10px auto;
-    max-width: 700px;
+    max-width: 400px;
   }
   mat-form-field {
     width: 100%;
   }
 mat-card-action{
   align-items:end;
+}
+img{
+  width:400px;
+  height: 300px;
+}
+#img-container{
+  text-align: center;
+  padding: 10px;
+}
+#like{
+  background-color: rgb(11, 172, 11);
+  border:solid 1px rgb(11, 172, 11);
+  border-radius: 2px;
+}
+#like:hover{
+  background-color: rgba(11, 172, 11,0.8);
+}
+#dislike{
+  background-color: rgb(224, 17, 17);
+  border:solid 1px rgb(224, 17, 17);
+  border-radius: 4px;
+}
+#dislike:hover{
+  background-color: rgba(224, 17, 17,0.8);
+}
+#add{
+  text-align: end;
+}
+#customtitle{
+  text-align: center;
+  background-color: #653bb9;
+  color: white;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.5);
+  font-family:'blossom';
+}
+p{
+  font-family: Comic Sans MS;
 }

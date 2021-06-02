@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-dashboard',
@@ -15,15 +16,17 @@ export class PostDashboardComponent implements OnInit {
   title?: string
   likes?:number
   dislikes?:number
+  comments?:string[]
 
   saving = 'Create Post'
 
-  constructor(private postService: PostService) {}
+  constructor(private route: ActivatedRoute,private router: Router,private postService: PostService) {}
 
   ngOnInit() {}
 
   createPost() {
     const postData = {
+      id:this.postService.getId(),
       author: this.author!,
       authorId: this.authorId!,
       content: this.content!,
@@ -31,7 +34,8 @@ export class PostDashboardComponent implements OnInit {
       published: new Date(),
       title: this.title!,
       likes: this.likes!,
-      dislikes: this.dislikes!
+      dislikes: this.dislikes!,
+      comments:this.comments!
     }
     this.postService.create(postData)
     this.author=''
@@ -41,9 +45,11 @@ export class PostDashboardComponent implements OnInit {
     this.image = ''
     this.likes=0
     this.dislikes=0
+    this.comments=[]
 
     this.saving = 'Post Created!'
     setTimeout(() => (this.saving = 'Create Post'), 3000)
+    this.router.navigate(['/blog'])
   }
 
   uploadImage(event:any) {
@@ -53,11 +59,6 @@ export class PostDashboardComponent implements OnInit {
       return alert('only image files')
     } 
     else {
-      /*const task = this.storage.upload(path, file)
-      this.downloadURL = task.downloadURL()
-      this.uploadPercent = task.percentageChanges()
-      console.log('Image Uploaded!')
-      this.downloadURL.subscribe(url => (this.image = url))*/
       const reader = new FileReader();
     
     if(event.target.files && event.target.files.length) {

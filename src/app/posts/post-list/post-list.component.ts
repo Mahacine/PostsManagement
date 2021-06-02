@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
@@ -11,10 +12,14 @@ import { PostService } from '../post.service';
 export class PostListComponent implements OnInit {
 
   posts : Post[] = []
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService,private router:Router) {}
 
   ngOnInit() {
     this.posts = this.postService.getPosts()
+  }
+
+  goNewPost(){
+      this.router.navigate(['/dashboard']);
   }
 
 }

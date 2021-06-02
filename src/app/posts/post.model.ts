@@ -1,5 +1,5 @@
 export class Post {
-    id?: number
+    id!: number
     author!: string
     authorId!: string
     content!: string
@@ -8,4 +8,5 @@ export class Post {
     title!: string
     likes:number=0
     dislikes:number=0
-  }
+    comments:string[]=new Array<string>()
+}

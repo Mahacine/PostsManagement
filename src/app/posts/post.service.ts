@@ -7,21 +7,28 @@ import { Post } from './post.model';
 export class PostService {
 
   posts:Post[] =[];
-  id:number=1;
+  id:number=0;
 
   constructor() { 
     this.posts = JSON.parse(localStorage.getItem('posts') || '[]');
-    let postNumber=parseInt(localStorage.getItem("id")!) || 0
+    this.id=parseInt(localStorage.getItem('id') || '0')
+    console.log(this.id)
+    /*let postNumber=parseInt(localStorage.getItem('id')!)
+    console.log(postNumber)
     if(postNumber==null){
       localStorage.setItem("id",JSON.stringify(this.id));
     }
     else{
       this.id=postNumber;
-    }
+    }*/
   }
 
   getPosts() :Post[]{
     return JSON.parse(localStorage.getItem('posts') || '[]');
+  }
+
+  getId():number{
+    return JSON.parse(localStorage.getItem('id') || '0')
   }
 
   create(post:Post) {
@@ -29,7 +36,11 @@ export class PostService {
     let postsArray = this.getPosts();
     this.id=this.id+1;
     post.id=this.id;
+    post.likes=0;
+    post.dislikes=0;
+    post.comments=[];
     postsArray.push(post);
+    localStorage.setItem('id',JSON.stringify(this.id))
     localStorage.setItem('posts',JSON.stringify(postsArray));
    }
 
@@ -38,41 +49,61 @@ export class PostService {
   }
 
   delete(id:number) {
-    let post=this.getPost(id)
-    const index: number = this.posts.indexOf(post!);
-    if (index !== -1) {
+    this.posts.forEach((element, index) => {
+      if(element.id == id ) {
         this.posts.splice(index, 1);
-    }
+      }
+    });
     localStorage.setItem('posts',JSON.stringify(this.posts));        
   }
 
-  updatePost (post:Post){
+  updatePost (id:number,content:string){
 
+    let i=-1;
     this.posts.forEach((element, index) => {
-      if(element.id == post.id ) {
-        this.posts[index] = post;
+      if(element.id == id ) {
+        i=index;
       }
     });
+    console.log(id);
+    this.posts[i].content = content;
     localStorage.setItem('posts',JSON.stringify(this.posts));
   }
 
   updateLikes(id:number){
+    let i=-1;
     this.posts.forEach((element, index) => {
       if(element.id == id ) {
-        this.posts[index].likes=this.posts[index].likes+1;
+        i=index;
       }
     });
+    this.posts[i].likes=this.posts[i].likes+1;
+    console.log(this.posts[i].likes);
     localStorage.setItem('posts',JSON.stringify(this.posts));
   }
 
   updateDislikes(id:number){
+    let i=-1
     this.posts.forEach((element, index) => {
       if(element.id == id ) {
-        this.posts[index].dislikes=this.posts[index].dislikes+1;
+        i=index;
       }
     });
+    this.posts[i].dislikes=this.posts[i].dislikes+1;
+    console.log(this.posts[i].dislikes);
     localStorage.setItem('posts',JSON.stringify(this.posts));
   }
 
+  addComment(id:number,comment:string){
+    let i=-1
+    this.posts.forEach((element, index) => {
+      if(element.id == id ) {
+        i=index;
+      }
+    });
+    console.log(this.posts[i])
+    this.posts[i].comments.push(comment);
+    localStorage.setItem('posts',JSON.stringify(this.posts));
+  }
 
 }

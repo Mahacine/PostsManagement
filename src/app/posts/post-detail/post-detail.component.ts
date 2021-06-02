@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
@@ -13,6 +13,7 @@ export class PostDetailComponent implements OnInit {
   post?: Post
   editing: boolean = false
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -24,27 +25,16 @@ export class PostDetailComponent implements OnInit {
   }
 
   getPost(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!) || 5
-    console.log(id)
-    this.post=this.postService.getPost(id)
-    console.log('Post found'+id);
-    console.log(this.postService.getPost(id));
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!) || 5;
+    this.post=this.postService.getPost(id);
   }
     
-  /*getPost(): void {
-    const id = this.route.snapshot.paramMap.get('id')
-    this.postService.getPostData(id).subscribe(post => (this.post = post))
-  }
 
   updatePost() {
-    const formData = {
-      title: this.post.title,
-      content: this.post.content
-    }
-    const id = this.route.snapshot.paramMap.get('id')
-    this.postService.update(id, formData)
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!)
+    this.postService.updatePost(id,this.post?.content || '')
     this.editing = false
-  }*/
+  }
 
   delete() {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!)
@@ -52,12 +42,26 @@ export class PostDetailComponent implements OnInit {
     this.router.navigate(['/blog'])
   }
 
-  updateLikes(id:number){
+  updateLikes(){
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!)
     this.postService.updateLikes(id);
+    this.post=this.postService.getPost(id)
   }
 
-  updateDislikes(id:number){
+  updateDislikes(){
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!)
     this.postService.updateDislikes(id);
+    this.post=this.postService.getPost(id)
+  }
+
+  addComment(comment:string){
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!)
+    this.postService.addComment(id,comment);
+    this.post=this.postService.getPost(id)
+  }
+
+  backToList(){
+    this.router.navigate(['/blog'])
   }
 
 }
